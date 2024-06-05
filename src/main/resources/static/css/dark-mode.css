@@ -1,0 +1,28 @@
+/* Body and general styles for dark mode */
+body {
+    background-color: #1a1a1a;
+    color: #ffffff;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    color: #ffffff;
+}
+
+canvas {
+    background-color: #333333;
+}
+
+/* Styles specific to the button for dark mode */
+button {
+    background-color: #444444;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+button:hover {
+    background-color: #555555;
+}

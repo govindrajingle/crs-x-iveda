@@ -1,0 +1,114 @@
+@import
+	url('https://fonts.googleapis.com/css2?family=Prompt:wght@400;700&family=Syncopate:wght@400;700&display=swap')
+	;
+
+body {
+	background-color: #000000;
+	color: white;
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+#container {
+	margin: 50px auto;
+	width: 80%;
+	max-width: 400px; /* Adjust maximum width as needed */
+}
+
+input[type="number"], input[type="text"] {
+	width: calc(100% - 22px); /* Adjusting for padding */
+	padding: 10px;
+	margin: 5px 0;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+input[type="submit"], .chart-link, #saveData {
+	background-color: #1E90FF; /* Dodger Blue */
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+	font-family: "Cutive Mono", monospace;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.result {
+	margin-top: 20px;
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.profit {
+	color: #00FF00; /* Green */
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+.loss {
+	color: #FF0000; /* Red */
+	font-family: "Prompt", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+th {
+	
+}
+
+#downloadPDF {
+	background-color: #1E90FF; /* Dodger Blue */
+	color: white;
+	border: none;
+	padding: 10px 20px;
+	text-decoration: none;
+	display: inline-block;
+	font-size: 16px;
+	margin: 4px 2px;
+	cursor: pointer;
+	border-radius: 4px;
+	font-family: "Cutive Mono", monospace;
+	font-weight: 700;
+	font-style: normal;
+}
+
+.white-text {
+	color: white;
+}
+
+.red-text {
+	color: red;
+}
+
+@media print {
+	input[type="submit"], #downloadPDF {
+		display: none;
+	}
+	body * {
+		color: black !important;
+	}
+}
