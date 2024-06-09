@@ -25,11 +25,11 @@ document.getElementById('calculatorForm').addEventListener('submit', function(ev
 	}
 
 	tableContent += "<tr><td>Net Gain/Loss</td><td>₹ " + profitOrLoss.toFixed(2) + "</td></tr>";
-	tableContent += "<tr><td>Amount after profit/loss and tax</td><td>₹ " + amountAfterProfitLoss.toFixed(2) + "</td></tr>";
-	tableContent += "<tr><td class='white-text'>Amount Invested</td><td class='white-text'>₹ " + (buyPrice * numberOfSharesRounded).toFixed(2) + "</td></tr>";
-	tableContent += "<tr><td class='white-text'>Amount Remaining</td><td class='white-text'>₹ " + (investmentAmount - (buyPrice * numberOfSharesRounded)).toFixed(2) + "</td></tr>";
+	tableContent += "<tr><td>Amount after profit/loss and tax</td><td>&#8377 " + amountAfterProfitLoss.toFixed(2) + "</td></tr>";
+	tableContent += "<tr><td class='white-text'>Amount Invested</td><td class='white-text'>&#8377 " + (buyPrice * numberOfSharesRounded).toFixed(2) + "</td></tr>";
+	tableContent += "<tr><td class='white-text'>Amount Remaining</td><td class='white-text'>&#8377 " + (investmentAmount - (buyPrice * numberOfSharesRounded)).toFixed(2) + "</td></tr>";
 	tableContent += "<tr><td class='white-text'>Number of Shares</td><td class='white-text'>" + numberOfSharesRounded.toFixed(2) + "</td></tr>";
-	tableContent += "<tr><td class='red-text'>Tax Amount</td><td class='red-text'>₹ " + taxAmount.toFixed(2) + "</td></tr>";
+	tableContent += "<tr><td class='red-text'>Tax Amount</td><td class='red-text'>&#8377 " + taxAmount.toFixed(2) + "</td></tr>";
 	tableContent += "</table>";
 
 	resultElement.innerHTML = tableContent;

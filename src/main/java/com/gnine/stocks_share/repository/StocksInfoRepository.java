@@ -31,7 +31,7 @@ public class StocksInfoRepository {
       //complete information on hover
       //String sql = "SELECT current_date, SUM(profitOrLossPercentage) as profitOrLossPercentage, stockName, SUM(buyPrice) as buyPrice, SUM(sellPrice) as sellPrice, SUM(investmentAmount) as investmentAmount, SUM(totalProfitOrLoss) as totalProfitOrLoss, SUM(amountAfterProfitLoss) as amountAfterProfitLoss, SUM(amountInvested) as amountInvested, SUM(amountRemaining) as amountRemaining, SUM(taxAmount) as taxAmount, SUM(numberOfSharesRounded) as numberOfSharesRounded FROM gnine_stocks_info WHERE EXTRACT(YEAR FROM current_date) = ? AND EXTRACT(MONTH FROM current_date) = ? GROUP BY current_date, stockName";
         
-        String sql = "SELECT current_date, totalProfitOrLoss, profitOrLossPercentage FROM gnine_stocks_info WHERE EXTRACT(YEAR FROM current_date) = ? AND EXTRACT(MONTH FROM current_date) = ?";
+        String sql = "SELECT current_date, stockName, buyPrice, sellPrice, investmentAmount, totalProfitOrLoss, amountAfterProfitLoss, amountInvested, amountRemaining, taxAmount, numberOfSharesRounded, profitOrLossPercentage FROM gnine_stocks_info WHERE EXTRACT(YEAR FROM current_date) = ? AND EXTRACT(MONTH FROM current_date) = ?";
         try {
             return jdbcTemplate.queryForList(sql, new Object[]{currentMonth.getYear(), currentMonth.getMonthValue()});
         } catch (DataAccessException e) {

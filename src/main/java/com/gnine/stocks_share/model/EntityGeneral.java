@@ -1,6 +1,8 @@
 package com.gnine.stocks_share.model;
 
 import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.sql.Time;
 
 public class EntityGeneral {
 
@@ -30,15 +32,6 @@ public class EntityGeneral {
 
 	public void setBuyPrice(BigDecimal buyPrice) {
 		this.buyPrice = buyPrice;
-	}
-
-	@Override
-	public String toString() {
-		return "EntityGeneral [stockName=" + stockName + ", buyPrice=" + buyPrice + ", sellPrice=" + sellPrice
-				+ ", investmentAmount=" + investmentAmount + ", totalProfitOrLoss=" + totalProfitOrLoss
-				+ ", amountAfterProfitLoss=" + amountAfterProfitLoss + ", amountInvested=" + amountInvested
-				+ ", amountRemaining=" + amountRemaining + ", taxAmount=" + taxAmount + ", profitOrLossPercentage="
-				+ profitOrLossPercentage + ", numberOfSharesRounded=" + numberOfSharesRounded + "]";
 	}
 
 	public BigDecimal getSellPrice() {
@@ -97,14 +90,6 @@ public class EntityGeneral {
 		this.taxAmount = taxAmount;
 	}
 
-	public int getNumberOfSharesRounded() {
-		return numberOfSharesRounded;
-	}
-
-	public void setNumberOfSharesRounded(int numberOfSharesRounded) {
-		this.numberOfSharesRounded = numberOfSharesRounded;
-	}
-
 	public BigDecimal getProfitOrLossPercentage() {
 		return profitOrLossPercentage;
 	}
@@ -113,4 +98,11 @@ public class EntityGeneral {
 		this.profitOrLossPercentage = profitOrLossPercentage;
 	}
 
+	public int getNumberOfSharesRounded() {
+		return numberOfSharesRounded;
+	}
+
+	public void setNumberOfSharesRounded(int numberOfSharesRounded) {
+		this.numberOfSharesRounded = numberOfSharesRounded;
+	}
 }

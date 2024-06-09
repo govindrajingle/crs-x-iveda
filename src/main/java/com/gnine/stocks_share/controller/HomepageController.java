@@ -1,5 +1,6 @@
 package com.gnine.stocks_share.controller;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -35,8 +36,8 @@ public class HomepageController {
 		EntityGeneral domain = new EntityGeneral();
 		try {
 			domain = mapper.readValue(jsonData, EntityGeneral.class);
-			// System.out.println(domain.toString());
 			ub.transferData(domain);
+			System.out.println(LocalDateTime.now() + "  data saved to table gnine_stocks_info");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -53,6 +54,7 @@ public class HomepageController {
 	@RequestMapping(value = "/profitorloss", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Map<String, Object>> getProfitOrLossAndPercentageOnCurrentMonth() {
+		//System.out.println(ub.getTotalProfitOrLossAndPercentageOnCurrentMonth());
 		return ub.getTotalProfitOrLossAndPercentageOnCurrentMonth();
 	}
 
