@@ -24,6 +24,21 @@ public class HomepageController {
 	@Autowired
 	StocksInfoRepository ub;
 
+	@RequestMapping("/dashboard")
+	public String goToDashboard() {
+		return "Dashboard";
+	}
+	
+	@RequestMapping("/purchasedstocks")
+	public String goToPurchasedStocks() {
+		return "PurchasedStocks";
+	}
+
+	@RequestMapping("/savetrade")
+	public String goToSaveTrade() {
+		return "SaveTrade";
+	}
+
 	// home page code to save data
 	@RequestMapping("/homepage")
 	public String goToHome() {
@@ -54,7 +69,7 @@ public class HomepageController {
 	@RequestMapping(value = "/profitorloss", produces = MediaType.APPLICATION_JSON_VALUE)
 	@ResponseBody
 	public List<Map<String, Object>> getProfitOrLossAndPercentageOnCurrentMonth() {
-		//System.out.println(ub.getTotalProfitOrLossAndPercentageOnCurrentMonth());
+		// System.out.println(ub.getTotalProfitOrLossAndPercentageOnCurrentMonth());
 		return ub.getTotalProfitOrLossAndPercentageOnCurrentMonth();
 	}
 

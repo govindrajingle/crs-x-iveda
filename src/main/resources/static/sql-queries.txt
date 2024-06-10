@@ -1,0 +1,61 @@
+CREATE TABLE gnine_stocks_info (
+    id SERIAL PRIMARY KEY,
+    current_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    stockname VARCHAR,
+    buyprice NUMERIC(10, 2),
+    sellprice NUMERIC(10, 2),
+    investmentamount NUMERIC(10, 2),
+    totalprofitorloss NUMERIC(10, 2),
+    amountafterprofitloss NUMERIC(10, 2),
+    amountinvested NUMERIC(10, 2),
+    amountremaining NUMERIC(10, 2),
+    taxamount NUMERIC(10, 2),
+    numberofsharesrounded INTEGER,
+    profitorlosspercentage NUMERIC(5, 2)
+);
+
+
+
+// Function to inert dummy data
+CREATE OR REPLACE FUNCTION insert_dummy_data()
+RETURNS VOID AS $$
+DECLARE
+    day date;
+BEGIN
+    day := '2024-06-01';
+    WHILE day <= '2024-06-30' LOOP
+        IF EXTRACT(DOW FROM day) NOT IN (0, 6) THEN
+            INSERT INTO gnine_stocks_info (
+                current_date, 
+                stockname, 
+                buyprice, 
+                sellprice, 
+                investmentamount, 
+                totalprofitorloss, 
+                amountafterprofitloss, 
+                amountinvested, 
+                amountremaining, 
+                taxamount, 
+                numberofsharesrounded, 
+                profitorlosspercentage
+            )
+            VALUES (
+                day, 
+                'Stock' || EXTRACT(DAY FROM day)::text, 
+                (random() * 100)::decimal(10,2), 
+                (random() * 100)::decimal(10,2), 
+                (random() * 1000)::decimal(10,2), 
+                (random() * 100)::decimal(10,2), 
+                (random() * 1000)::decimal(10,2), 
+                (random() * 1000)::decimal(10,2), 
+                (random() * 1000)::decimal(10,2), 
+                (random() * 100)::decimal(10,2), 
+                (random() * 100)::integer, 
+                (random() * 100)::decimal(10,2)
+            );
+        END IF;
+        day := day + INTERVAL '1 day';
+    END LOOP;
+END;
+$$ LANGUAGE plpgsql;
+	

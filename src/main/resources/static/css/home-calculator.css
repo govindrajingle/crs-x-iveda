@@ -16,7 +16,8 @@ body {
 	max-width: 400px; /* Adjust maximum width as needed */
 }
 
-input[type="number"], input[type="text"], input[type="date"], input[type="time"] {
+input[type="number"], input[type="text"], input[type="date"], input[type="time"]
+	{
 	width: calc(100% - 22px); /* Adjusting for padding */
 	padding: 10px;
 	margin: 5px 0;
@@ -28,7 +29,7 @@ input[type="number"], input[type="text"], input[type="date"], input[type="time"]
 	font-style: normal;
 }
 
-input[type="submit"], .chart-link, #saveData {
+input[type="submit"], .chart-link, #saveData, a, #fetchData {
 	background-color: #1E90FF; /* Dodger Blue */
 	color: white;
 	border: none;
@@ -76,26 +77,6 @@ th, td {
 	padding: 8px;
 }
 
-th {
-	
-}
-
-#downloadPDF {
-	background-color: #1E90FF; /* Dodger Blue */
-	color: white;
-	border: none;
-	padding: 10px 20px;
-	text-decoration: none;
-	display: inline-block;
-	font-size: 16px;
-	margin: 4px 2px;
-	cursor: pointer;
-	border-radius: 4px;
-	font-family: "Cutive Mono", monospace;
-	font-weight: 700;
-	font-style: normal;
-}
-
 .white-text {
 	color: white;
 }
@@ -106,8 +87,16 @@ th {
 
 /* make date and time in same row */
 .form-group {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 10px;
-    }
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 10px;
+}
+
+h1 {
+	color: orange;
+}
+
+#tradesTable tr:not(:first-child) {
+	color: #00FF00;
+}
