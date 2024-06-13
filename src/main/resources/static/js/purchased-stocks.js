@@ -3,15 +3,38 @@ $(document).ready(function() {
 		url: '/getTrades',
 		type: 'GET',
 		success: function(data) {
-			var index = 1; // Initialize counter
-			data.forEach(function(trade) {
-				var date = new Date(trade.buyDate);
-				var formattedDate = date.getDate() + '-' + date.toLocaleString('default', { month: 'long' }) + '-' + date.getFullYear();
-				$('#tradesTable').append('<tr><td>' + index + '</td><td>' + trade.stockName + '</td><td id="rupees">' + trade.buyPrice + '</td><td>' + formattedDate + '</td><td id="rupees">' + trade.investmentamount + '</td><td>' + trade.numberOfShares);
-				//for delete
-				//$('#tradesTable').append('<tr><td>' + index + '</td><td>' + trade.stockName + '</td><td id="rupees">' + trade.buyPrice + '</td><td>' + formattedDate + '</td><td id="rupees">' + trade.investmentamount + '</td><td>' + trade.numberOfShares + '</td><td><button class="delete-button" data-id="' + trade.id + '">Delete</button></td></tr>');
-				index++; // Increment counter
-			});
+			if (data && data.length > 0) {
+				var index = 1; // Initialize counter
+				data.forEach(function(trade) {
+					var buyDate = new Date(trade.buydate);
+					var formattedBuyDate = buyDate.getDate() + '-' + buyDate.toLocaleString('default', { month: 'long' }) + '-' + buyDate.getFullYear();
+					var row = '<tr>' +
+						'<td>' + index + '</td>' +
+						'<td>' + formattedBuyDate + '</td>' +
+						'<td>' + trade.stockname + '</td>' +
+						'<td>' + trade.buyprice + '</td>' +
+						'<td>' + trade.sellprice + '</td>' +
+						'<td>' + trade.profitlosspercentage + '</td>' +
+						'<td>' + trade.netgainloss + '</td>' +
+						'<td>' + trade.investmentamount + '</td>' +
+						'<td>' + trade.amountinvested + '</td>' +
+						'<td>' + trade.numberofshares + '</td>' +
+						'<td>' + trade.tax + '</td>' +
+						'<td>' + trade.holdtimedays + '</td>' +
+						'</tr>';
+					$('#tradesTable tbody').append(row);
+					index++; // Increment counter
+					// Add total balance to a new div after the table
+					var formattedTotalBalance = '&#8377; ' + trade.balance.toFixed(2); // Assuming balance is a float number
+					var totalBalanceRow = '<div style="padding: 20px;">Total Balance: ' + formattedTotalBalance + '</div>';
+					$('#tradesTable').after(totalBalanceRow);
+				});
+			} else {
+				console.log('No data received.');
+			}
+		},
+		error: function(xhr, status, error) {
+			console.log('Error:', error);
 		}
 	});
 
