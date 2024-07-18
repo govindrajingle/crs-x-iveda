@@ -43,33 +43,22 @@ public class RestControllerClass {
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
 
-	@GetMapping("/customstockdatastream")
-	public BigDecimal streamRandomValues() {
-		try {
-			return fetchStockPriceData();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		return null;
-	}
-
-	public BigDecimal fetchStockPriceData() throws IOException {
-		Document doc = Jsoup.connect("https://www.google.com/finance/quote/EXIDEIND:NSE").get();
-		// Document doc =
-		// Jsoup.connect("https://195.3.220.223/finance/quote/EXIDEIND:NSE?__cpo=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbQ").get();
-		Elements elements = doc.select(".YMlKec.fxKbKc");
-		if (!elements.isEmpty()) {
-			Element element = elements.first();
-			String priceString = element.text();
-			// Remove rupees symbol and any other non-numeric characters
-			priceString = priceString.replaceAll("[^\\d.]", "");
-			// Convert string to BigDecimal
-			return new BigDecimal(priceString);
-		} else {
-			throw new IOException("Price element not found");
-		}
-	}
+	/*
+	 * @GetMapping("/customstockdatastream") public BigDecimal streamRandomValues()
+	 * { try { return fetchStockPriceData(); } catch (IOException e) {
+	 * e.printStackTrace(); } return null; }
+	 * 
+	 * public BigDecimal fetchStockPriceData() throws IOException { Document doc =
+	 * Jsoup.connect("https://www.google.com/finance/quote/ADANIPOWER:NSE").get();
+	 * // Document doc = Jsoup.connect(
+	 * "https://195.3.220.223/finance/quote/EXIDEIND:NSE?__cpo=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbQ"
+	 * ).get(); Elements elements = doc.select(".YMlKec.fxKbKc"); if
+	 * (!elements.isEmpty()) { Element element = elements.first(); String
+	 * priceString = element.text(); // Remove rupees symbol and any other
+	 * non-numeric characters priceString = priceString.replaceAll("[^\\d.]", "");
+	 * // Convert string to BigDecimal return new BigDecimal(priceString); } else {
+	 * throw new IOException("Price element not found"); } }
+	 */
 
 	@RequestMapping(value = "/getTrades", method = RequestMethod.GET)
 	public List<StocksPortfolio> getTrades() {

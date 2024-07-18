@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 import com.gnine.stocks_share.model.EntityGeneral;
 
 @Repository
-public class StocksInfoRepository {
+public class DBDataFetchRepository {
 
 	@Autowired
 	private JdbcTemplate jdbcTemplate;
@@ -29,12 +29,17 @@ public class StocksInfoRepository {
 		}
 	}
 
+	public Double getRealTimePrice() {
+		String sql = "SELECT value FROM gnine_stock_price_realtime ORDER BY created_at DESC LIMIT 1";
+		System.out.println(jdbcTemplate.queryForObject(sql, Double.class));
+		return jdbcTemplate.queryForObject(sql, Double.class);
+	}
+
 	public List<Map<String, Object>> getTotalProfitOrLossAndPercentageOnCurrentMonth() {
 		YearMonth currentMonth = YearMonth.now();
-		String sql = "SELECT current_date, stockName, buyPrice, sellPrice, investmentAmount, totalProfitOrLoss, amountAfterProfitLoss, amountInvested, amountRemaining, taxAmount, numberOfSharesRounded, profitOrLossPercentage FROM gnine_stocks_info WHERE EXTRACT(YEAR FROM current_date) = ? AND EXTRACT(MONTH FROM current_date) = ?";
+		String sql = "select * from gnine_stocks_portfolio";
 		try {
-			return jdbcTemplate.queryForList(sql,
-					new Object[] { currentMonth.getYear(), currentMonth.getMonthValue() });
+			return jdbcTemplate.queryForList(sql);
 		} catch (DataAccessException e) {
 			e.printStackTrace();
 			return null;

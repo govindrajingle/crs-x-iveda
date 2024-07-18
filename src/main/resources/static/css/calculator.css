@@ -1,0 +1,63 @@
+/* CSS for calculator styling */
+
+/* Left-align the calculator form and result with left margin */
+#calculatorForm, .result {
+	margin-left: 20px;
+	max-width: 400px; /* Adjust width as needed */
+}
+
+/* Style the form labels */
+#calculatorForm label {
+	display: block;
+	margin-bottom: 10px;
+}
+
+/* Style the form inputs and select */
+#calculatorForm input[type="number"], #calculatorForm select {
+	width: 50%; /* Reduce width to 50% */
+	padding: 10px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	border-radius: 5px;
+	box-sizing: border-box;
+	/* Include padding and border in width calculation */
+}
+
+/* Set placeholders */
+#calculatorForm input[type="number"]::-webkit-input-placeholder,
+	#calculatorForm select::-webkit-input-placeholder {
+	color: #ccc;
+}
+
+/* Style the submit button */
+#calculatorForm input[type="submit"] {
+	width: 50%;
+	padding: 10px;
+	background-color: dodgerblue; /* Set background color to Dodger Blue */
+	color: white;
+	border: none;
+	border-radius: 5px;
+	cursor: pointer;
+}
+
+.main-container.blur-background {
+	filter: blur(15px);
+	pointer-events: none;
+}
+
+.popup {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: white;
+	padding: 20px;
+	border: 1px solid #ccc;
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+	z-index: 1000;
+	display: none;
+}
+
+.show-popup {
+	display: block;
+}

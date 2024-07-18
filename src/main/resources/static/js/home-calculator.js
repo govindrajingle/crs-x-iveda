@@ -66,7 +66,7 @@ document.getElementById('saveData').addEventListener('click', function() {
 	})
 		.then((willSave) => {
 			if (willSave) {
-				fetch('/calculate', {
+				fetch('calculate', {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json'

@@ -1,82 +1,93 @@
-fetch('/profitorloss')
-	.then(response => response.json())
-	.then(data => {
-		let groupedData = data.reduce((acc, item) => {
-			let date = new Date(item.current_date).toLocaleDateString('en-GB', { day: '2-digit', month: 'long' });
-			if (!acc[date]) {
-				acc[date] = [];
-			}
-			acc[date].push(item);
-			return acc;
-		}, {});
+$(document).ready(function() {
+	$.ajax({
+		url: 'profitorloss',
+		method: 'GET',
+		success: function(data) {
+			renderChart(data);
+		}
+	});
+});
 
-		let averagedData = Object.keys(groupedData).map(date => {
-			let items = groupedData[date];
-			let averageProfitOrLossPercentage = items.reduce((acc, item) => {
-				let percentage = item.sellprice < item.buyprice ? -item.profitorlosspercentage : item.profitorlosspercentage;
-				return acc + percentage;
-			}, 0) / items.length;
-			return {
-				date: date,
-				profitorlosspercentage: Number(averageProfitOrLossPercentage.toFixed(2)), // Format to 2 decimal places
-			};
-		});
+function renderChart(data) {
+	var daysInMonth = getDaysInCurrentMonth();
+	var labels = Array.from({ length: daysInMonth }, (_, i) => i + 1); // Array of days in current month
+	var values = new Array(daysInMonth).fill(0); // Array to hold profit/loss percentages for each day
+	var remainingData = [];
+	// Process the data
+	data.forEach(function(item) {
+		var currentDate = new Date(item.currentdate);
+		var currentMonth = currentDate.getMonth();
+		var currentDateOfMonth = currentDate.getDate();
+		var remaining = {
+			'stockname':item.stockname,
+			'currentdate': item.currentdate,
+			'buyprice': item.buyprice,
+			'investmentamount': item.investmentamount,
+			'amountinvested': item.amountinvested,
+			'amountremaining': item.amountremaining,
+			'numberofshares': item.numberofshares,
+			'buydate': item.buydate,
+			'sellprice': item.sellprice,
+			'tax': item.tax,
+			'netgainloss': item.netgainloss,
+			'holdtimedays': item.holdtimedays,
+			'balance': item.balance
+		};
+		remainingData.push(remaining);
+		// Only include data for the current month
+		if (currentMonth === new Date().getMonth()) {
+			// Update values array with profit/loss percentage for the current day
+			values[currentDateOfMonth - 1] += item.profitlosspercentage;
+		}
+	});
 
-		let labels = averagedData.map(item => item.date); // Use 'date' property directly
-		let profitOrLossPercentage = averagedData.map(item => item.profitorlosspercentage);
-		let profitData = profitOrLossPercentage.map(value => value >= 0 ? value : null);
-		let lossData = profitOrLossPercentage.map(value => value < 0 ? value : null);
-		let ctx = document.getElementById('myChart').getContext('2d');
-		let myChart = new Chart(ctx, {
-			type: 'bar',
-			data: {
-				labels: labels,
-				datasets: [{
-					label: 'Profit ',
-					data: profitData,
-					additionalData: data, // Add this line to store all data
-					backgroundColor: 'rgba(144, 238, 144, 0.2)', // light green for profit
-					borderColor: 'rgba(144, 238, 144, 1)', // light green for profit
-					borderWidth: 2
-				},
-				{
-					label: 'Loss ',
-					data: lossData,
-					additionalData: data, // Add this line to store all data
-					backgroundColor: 'rgba(255, 99, 71, 0.2)', // light red for loss
-					borderColor: 'rgba(255, 99, 71, 1)', // light red for loss
-					borderWidth: 2
-				}]
-			},
-			options: {
-				scales: {
-					y: {
-						beginAtZero: true,
-						ticks: {
-							callback: function(value, index, values) {
-								return value + '%'; // Add '%' symbol to y-axis labels
-							}
-						}
+	var ctx = document.getElementById('profitLossChart').getContext('2d');
+	var chart = new Chart(ctx, {
+		type: 'bar', // Change chart type to line
+		data: {
+			labels: labels,
+			datasets: [{
+				label: 'Daily Profit/Loss Percentage',
+				data: values,
+				backgroundColor: 'rgba(75, 192, 192, 0.2)',
+				borderColor: 'rgba(75, 192, 192, 1)',
+				borderWidth: 1,
+				fill: false // Ensure the line chart is not filled
+			}]
+		},
+		options: {
+			scales: {
+				x: {
+					title: {
+						display: true,
+						text: 'Day of the Month'
 					}
 				},
-				tooltips: {
+				y: {
+					title: {
+						display: true,
+						text: 'Total Profit/Loss Percentage'
+					},
+					beginAtZero: true
+				}
+			},
+			plugins: {
+				tooltip: {
 					callbacks: {
-						label: function(tooltipItem, data) {
-							let item = data.datasets[tooltipItem.datasetIndex].additionalData[tooltipItem.index];
-							return [
-								'Stock Name: ' + item.stockname,
-								'Buy Price: ' + item.buyprice,
-								'Sell Price: ' + item.sellprice,
-								'Profit/Loss Percentage: ' + item.profitorlosspercentage,
-								'Total Profit or Loss: ' + item.totalprofitorloss,
-								'Amount After Profit/Loss: ' + item.amountafterprofitloss,
-								'Amount Invested: ' + item.amountinvested,
-								'Tax Amount: ' + item.taxamount,
-								'Number of Shares: ' + item.numberofsharesrounded
-							];
+						label: function(context) {
+							var index = context.dataIndex;
+							// Construct the tooltip label using the remaining data
+							return `Profit: ${context.raw.toFixed(2)}%`;
 						}
 					}
 				}
 			}
-		});
+		}
 	});
+}
+
+// Function to get the number of days in the current month
+function getDaysInCurrentMonth() {
+	var now = new Date();
+	return new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+}

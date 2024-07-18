@@ -9,35 +9,38 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gnine.stocks_share.model.EntityGeneral;
-import com.gnine.stocks_share.repository.StocksInfoRepository;
+import com.gnine.stocks_share.model.OverallNumbers;
+import com.gnine.stocks_share.repository.DBDataFetchRepository;
 
 @Controller
 public class HomepageController {
 
 	@Autowired
-	StocksInfoRepository ub;
+	DBDataFetchRepository ub;
 
-	@RequestMapping("/testpage")
-	public String goToTestPage() {
-		System.out.println("Test JSP controller Hit");
-		return "Test";
-	}
+	@Autowired
+	private JdbcTemplate jdbcTemplate;
 
-	@GetMapping("/checkurl")
+	// @GetMapping("/checkurl")
 	public ResponseEntity<String> checkURL() {
-		String urlToCheck = "https://195.3.220.223/finance/quote/EXIDEIND:NSE?__cpo=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbQ"; // Example URL
+		String urlToCheck = "https://195.3.220.223/finance/quote/EXIDEIND:NSE?__cpo=aHR0cHM6Ly93d3cuZ29vZ2xlLmNvbQ"; // Example
+																														// URL
 		System.out.println("Checking URL connection: " + urlToCheck);
 		try {
 			URL url = new URL(urlToCheck);
@@ -97,20 +100,9 @@ public class HomepageController {
 		return "Dashboard";
 	}
 
-	@RequestMapping("/purchasedstocks")
-	public String goToPurchasedStocks() {
-		return "PurchasedStocks";
-	}
-
 	@RequestMapping("/savetrade")
 	public String goToSaveTrade() {
 		return "SaveTrade";
-	}
-
-	// home page code to save data
-	@RequestMapping("/homepage")
-	public String goToHome() {
-		return "HomeCalculator";
 	}
 
 	@PostMapping("/calculate")
@@ -129,17 +121,29 @@ public class HomepageController {
 
 	// end
 	// chart to display
-	@RequestMapping("/chart")
-	public String goToChart() {
-		return "Chart";
-	}
 
-	@RequestMapping(value = "/profitorloss", produces = MediaType.APPLICATION_JSON_VALUE)
-	@ResponseBody
-	public List<Map<String, Object>> getProfitOrLossAndPercentageOnCurrentMonth() {
-		// System.out.println(ub.getTotalProfitOrLossAndPercentageOnCurrentMonth());
-		return ub.getTotalProfitOrLossAndPercentageOnCurrentMonth();
-	}
+	
 
 	// end
+
+	@GetMapping("/maxIdRow")
+	@ResponseBody
+	public OverallNumbers getMaxIdRow() {
+		try {
+			String sqlQuery = "SELECT * FROM gnine_overall_numbers WHERE id = (SELECT MAX(id) FROM gnine_overall_numbers)";
+			// System.out.println(jdbcTemplate.queryForObject(sqlQuery, new
+			// BeanPropertyRowMapper<>(OverallNumbers.class)));
+			return jdbcTemplate.queryForObject(sqlQuery, new BeanPropertyRowMapper<>(OverallNumbers.class));
+		} catch (EmptyResultDataAccessException e) {
+			throw new EmptyResultException("No data found for the specified criteria.");
+		}
+	}
+
+	@SuppressWarnings("serial")
+	@ResponseStatus(HttpStatus.NOT_FOUND)
+	public static class EmptyResultException extends RuntimeException {
+		public EmptyResultException(String message) {
+			super(message);
+		}
+	}
 }

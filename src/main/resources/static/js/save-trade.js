@@ -37,7 +37,7 @@ document.getElementById('saveyourtrade').addEventListener('submit', function(eve
 	}).then((result) => {
 		if (result.isConfirmed) {
 			var xhr = new XMLHttpRequest();
-			xhr.open('POST', '/savetradedata', true);
+			xhr.open('POST', 'savetradedata', true);
 			xhr.setRequestHeader('Content-Type', 'application/json');
 			xhr.send(JSON.stringify(data));
 

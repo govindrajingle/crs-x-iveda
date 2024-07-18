@@ -4,31 +4,42 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<link rel="stylesheet" href="/css/home-calculator.css">
-<link rel="icon" type="image/png" href="/favicon/favicon.png">
+<link rel="stylesheet" href="css/base-layout.css">
+<link rel="stylesheet" href="css/purchased-stocks.css">
+<link rel="icon" type="image/png" href="favicon/favicon.png">
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-<title>G9 | Purchased Stocks</title>
+<script src="js/purchased-stocks.js"></script>
+<title>G9 | All Trades</title>
 </head>
 <body>
-	<h1>Purchased Stocks</h1>
-	<table id="tradesTable">
-		<tr>
-			<th>Index</th>
-			<th>Buy Date</th>
-			<th>Stock Name</th>
-			<th>Buy Price</th>
-			<th>Sell Price</th>
-			<th>Profit/Loss %</th>
-			<th>Net Gain/Loss</th>
-			<th>Total Amount</th>
-			<th>Invested Amount</th>
-			<th>Number of Shares</th>
-			<th>Tax</th>
-			<th>Hold Time Days</th>
-		</tr>
-	</table>
-	<script src="/js/purchased-stocks.js"></script>
+	<%@ include file="Header.jsp"%>
+	<div id="navLinks">
+		<a href="homepage">Homepage</a> <a href="calculator">Calculator</a> <a
+			href="chart">All Trades Chart</a>
+	</div>
+	<div class="main-container">
+		<div class="content">
+			<h1>Purchased Stocks</h1>
+			<table id="tradesTable"
+				style="border-collapse: collapse; width: 100%;">
+				<thead>
+					<tr>
+						<th>Index</th>
+						<th>Buy Date</th>
+						<th>Stock Name</th>
+						<th>Profit/Loss %</th>
+						<th>Net Gain/Loss</th>
+						<th>Show More</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!-- Table rows will be dynamically added here -->
+				</tbody>
+			</table>
+		</div>
+	</div>
+	<%@ include file="Footer.jsp"%>
 </body>
 </html>
